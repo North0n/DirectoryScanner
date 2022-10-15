@@ -73,4 +73,17 @@ public class Tests
             Assert.That(resultNoCancellation.Root.Size, Is.GreaterThanOrEqualTo(resultWithCancellation.Root.Size));
         });
     }
+
+    [Test]
+    public void FileScanTest()
+    {
+        var result = _scanner.StartScan("TestDir/File.txt", 150);
+        
+        Assert.Multiple(() =>
+        {
+            Assert.That(result.Root.Children, Is.Null);
+            Assert.That(result.Root.Size, Is.EqualTo(3));
+            Assert.That(result.Root.Name, Is.EqualTo("File.txt"));
+        });
+    }
 }

@@ -13,6 +13,11 @@ public class DirectoryScanner : IDirectoryScanner
 
     public FilesystemTree StartScan(string path, ushort maxThreadCount)
     {
+        if (File.Exists(path))
+        {
+            var fileInfo = new FileInfo(path);
+            return new FilesystemTree(new Node(fileInfo.FullName, fileInfo.Name, fileInfo.Length));
+        }
         if (!Directory.Exists(path))
         {
             throw new ArgumentException($"Directory {path} doesn't exist");
