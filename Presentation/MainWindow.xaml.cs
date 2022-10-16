@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using Presentation.ViewModels;
 
 namespace Presentation
 {
@@ -7,6 +8,7 @@ namespace Presentation
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = new ApplicationViewModel();
         }
     }
 }

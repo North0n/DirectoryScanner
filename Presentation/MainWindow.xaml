@@ -4,6 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Presentation"
+        xmlns:self="clr-namespace:Presentation.Models" xmlns:viewmodels="clr-namespace:Presentation.ViewModels"
+        d:DataContext="{d:DesignInstance Type=viewmodels:ApplicationViewModel}"
         mc:Ignorable="d"
         Title="Сканер директорий" Height="450" Width="800">
     <Window.Resources>
@@ -14,11 +16,37 @@
         </Style>
     </Window.Resources>
     <Grid>
-        <Button Content="Начать сканирование" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="182"/>
-        <Button Content="Выбрать директорию" HorizontalAlignment="Left" Margin="10,44,0,0" VerticalAlignment="Top" Width="182"/>
-        <Button Content="Остановить сканирование" HorizontalAlignment="Left" Margin="10,78,0,0" VerticalAlignment="Top"/>
-        <TreeView Margin="197,10,10,10">
-            
+        <Button Content="Начать сканирование" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"
+                Width="182" Command="{Binding Path=StartScanning}" IsEnabled="{Binding !IsScanning}" />
+        <Button Content="Выбрать директорию" HorizontalAlignment="Left" Margin="10,44,0,0" VerticalAlignment="Top"
+                Width="182" Command="{Binding Path=SetDirectoryCommand}" />
+        <Button Content="Остановить сканирование" HorizontalAlignment="Left" Margin="10,78,0,0" VerticalAlignment="Top"
+                Command="{Binding Path=CancelScanning}" IsEnabled="{Binding IsScanning}" />
+        <TreeView Margin="197,10,10,10" ItemsSource="{Binding Root.Root}">
+            <TreeView.Resources>
+                <HierarchicalDataTemplate ItemsSource="{Binding Children}" DataType="{x:Type self:Node}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Name}" />
+                        <TextBlock Text=" | " />
+                        <TextBlock Text="{Binding Size}" />
+                        <TextBlock Text=" bytes" />
+                        <TextBlock Text=" | " />
+                        <TextBlock Text="{Binding SizeInPercent, StringFormat=N2}" />
+                        <TextBlock Text="%" />
+                    </StackPanel>
+                </HierarchicalDataTemplate>
+                <!-- <DataTemplate DataType="{x:Type self:Node}"> -->
+                <!--     <StackPanel Orientation="Horizontal"> -->
+                <!--         <TextBlock Text="{Binding Name}"/> -->
+                <!--         <TextBlock Text=" | "/> -->
+                <!--         <TextBlock Text="{Binding Size}"/> -->
+                <!--         <TextBlock Text=" bytes"/> -->
+                <!--         <TextBlock Text=" | "/> -->
+                <!--         <TextBlock Text="{Binding SizeInPercent, StringFormat=N2}"/> -->
+                <!--         <TextBlock Text="%"/> -->
+                <!--     </StackPanel> -->
+                <!-- </DataTemplate> -->
+            </TreeView.Resources>
         </TreeView>
     </Grid>
 </Window>
