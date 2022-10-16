@@ -103,6 +103,8 @@ public class DirectoryScanner : IDirectoryScanner
         {
             if (token.IsCancellationRequested)
                 return;
+            if (info.LinkTarget != null)
+                continue;
             node.Children.Add(new Node(info.FullName, info.Name, info.Length));
         }
     }
