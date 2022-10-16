@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using Presentation.Interfaces;
 
 namespace Presentation.Models;
@@ -14,21 +15,22 @@ public class FilesystemTree
 
     private static IFilesystemObject CreateDtoNode(DirectoryScanner.Core.Model.Node node, long parentSize)
     {
+        IFilesystemObject newNode;
+        var sizeInPercent = (double)node.Size / parentSize * 100;
+        sizeInPercent = double.IsNaN(sizeInPercent) ? 0 : sizeInPercent;
         if (node.Children == null)
         {
-            var newNode = new File(node.Name, node.Size);
-            newNode.SizeInPercent = (double)node.Size / parentSize * 100;
-            return newNode;
+            newNode = new File(node.Name, node.Size, sizeInPercent);
         }
         else
         {
-            var newNode = new Directory(node.Name, node.Size);
-            newNode.SizeInPercent = (double)node.Size / parentSize * 100;
+            newNode = new Directory(node.Name, node.Size, sizeInPercent);
             foreach (var child in node.Children)
             {
-                newNode.Children.Add(CreateDtoNode(child, node.Size));
+                ((Directory)newNode).Children.Add(CreateDtoNode(child, node.Size));
             }
-            return newNode;
         }
+
+        return newNode;
     }
 }
