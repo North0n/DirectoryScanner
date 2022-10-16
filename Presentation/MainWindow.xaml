@@ -7,7 +7,7 @@
         xmlns:self="clr-namespace:Presentation.Models" xmlns:viewmodels="clr-namespace:Presentation.ViewModels"
         d:DataContext="{d:DesignInstance Type=viewmodels:ApplicationViewModel}"
         mc:Ignorable="d"
-        Title="Сканер директорий" Height="450" Width="800">
+        Title="Сканер директорий" Height="450" Width="800" Icon="Resources/loupe.ico">
     <Window.Resources>
         <Style TargetType="Button">
             <Setter Property="FontSize" Value="14"></Setter>
@@ -24,28 +24,28 @@
                 Command="{Binding Path=CancelScanning}" IsEnabled="{Binding IsScanning}" />
         <TreeView Margin="197,10,10,10" ItemsSource="{Binding Root.Root}">
             <TreeView.Resources>
-                <HierarchicalDataTemplate ItemsSource="{Binding Children}" DataType="{x:Type self:Node}">
+                <HierarchicalDataTemplate ItemsSource="{Binding Children}" DataType="{x:Type self:Directory}">
                     <StackPanel Orientation="Horizontal">
+                        <Image Source="\Resources\folder.png" Width="15" Height="15" Margin="0,0,5,0"/>
                         <TextBlock Text="{Binding Name}" />
-                        <TextBlock Text=" | " />
+                        <TextBlock Text=" (" />
                         <TextBlock Text="{Binding Size}" />
-                        <TextBlock Text=" bytes" />
-                        <TextBlock Text=" | " />
+                        <TextBlock Text=" байт, " />
                         <TextBlock Text="{Binding SizeInPercent, StringFormat=N2}" />
-                        <TextBlock Text="%" />
+                        <TextBlock Text="%)" />
                     </StackPanel>
                 </HierarchicalDataTemplate>
-                <!-- <DataTemplate DataType="{x:Type self:Node}"> -->
-                <!--     <StackPanel Orientation="Horizontal"> -->
-                <!--         <TextBlock Text="{Binding Name}"/> -->
-                <!--         <TextBlock Text=" | "/> -->
-                <!--         <TextBlock Text="{Binding Size}"/> -->
-                <!--         <TextBlock Text=" bytes"/> -->
-                <!--         <TextBlock Text=" | "/> -->
-                <!--         <TextBlock Text="{Binding SizeInPercent, StringFormat=N2}"/> -->
-                <!--         <TextBlock Text="%"/> -->
-                <!--     </StackPanel> -->
-                <!-- </DataTemplate> -->
+                <DataTemplate DataType="{x:Type self:File}">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Resources/file.png" Width="15" Height="15" Margin="0,0,5,0" />
+                        <TextBlock Text="{Binding Name}"/>
+                        <TextBlock Text=" ("/>
+                        <TextBlock Text="{Binding Size}"/>
+                        <TextBlock Text=" байт, "/>
+                        <TextBlock Text="{Binding SizeInPercent, StringFormat=N2}"/>
+                        <TextBlock Text="%)"/>
+                    </StackPanel>
+                </DataTemplate>
             </TreeView.Resources>
         </TreeView>
     </Grid>

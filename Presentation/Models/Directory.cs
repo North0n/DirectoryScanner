@@ -1,10 +1,11 @@
 ﻿using System.Collections.ObjectModel;
+using Presentation.Interfaces;
 
 namespace Presentation.Models;
 
-public class Node
+public class Directory : IFilesystemObject
 {
-    public Node(string name, long size)
+    public Directory(string name, long size)
     {
         Name = name;
         Size = size;
@@ -12,6 +13,7 @@ public class Node
 
     public string Name { get; }
     public long Size { get; }
+
     public double SizeInPercent { get; internal set; }
-    public ObservableCollection<Node> Children { get; set; }
+    public ObservableCollection<IFilesystemObject> Children { get; } = new();
 }
