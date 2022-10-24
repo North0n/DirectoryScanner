@@ -55,7 +55,7 @@ public class DirectoryScanner : IDirectoryScanner
                     // Exception is thrown in case if token was cancelled
                 }
             }
-        } while ((!_queue.IsEmpty || _semaphore.CurrentCount != maxThreadCount) &&
+        } while ((_semaphore.CurrentCount != maxThreadCount || !_queue.IsEmpty) &&
                  !token.IsCancellationRequested);
 
         IsScanning = false;
